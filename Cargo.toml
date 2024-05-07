@@ -1,0 +1,13 @@
+[package]
+name = "auth-library"
+version = "0.1.0"
+edition = "2018"
+
+# Dependencies
+[dependencies]
+mongodb = "2.0"
+jsonwebtoken = "7"
+chrono = "0.4"
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+bson = "1"
