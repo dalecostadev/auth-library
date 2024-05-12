@@ -1,10 +1,40 @@
 // src/models/auth_model.rs
 
-use mongodb::{Client, options::ClientOptions, bson::doc};
-use jsonwebtoken::{encode, decode, Header, Validation, EncodingKey, DecodingKey};
-use chrono::{Utc, Duration};
+use mongodb::{Client, bson::doc};
+use jsonwebtoken::{encode, decode, Header, Validation, EncodingKey, DecodingKey, errors::Error as JwtError};
+use chrono::{DateTime, Duration, Utc};
 use serde::{Serialize, Deserialize};
 use serde_json::json;
+use std::option::Option;
+use std::sync::Arc;
+
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct UserInfo {
+    #[serde(rename = "_id")]
+    pub id: bson::oid::ObjectId,
+    pub status: String,
+    pub roles: Vec<bson::oid::ObjectId>,
+    pub username: String,
+    pub email: String,
+    pub password: String,
+    pub first_name: String,
+    pub last_name: String,
+    #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
+    pub date_of_birthday: DateTime<Utc>,
+    pub sex: String,
+    pub country: String,
+    pub city: String,
+    pub address: String,
+    pub post_code: String,
+    pub phone_prefix: String,
+    pub phone_number: String,
+    pub confirmation_code: String,
+    pub code_password_recovering: Option<String>,
+    pub date_password_recovering: Option<DateTime<Utc>>,
+    #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
+    pub created_at: DateTime<Utc>,
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
@@ -33,7 +63,14 @@ pub struct Auth {
 }
 
 impl Auth {
-    pub async fn new(client: Arc<Client>, secret_key: Vec<u8>, company_name: String, token_expiration: Duration, db_name: String, collection_name: String) -> Self {
+    pub async fn new(
+        client: Arc<Client>,
+        secret_key: Vec<u8>,
+        company_name: String,
+        token_expiration: Duration,
+        db_name: String,
+        collection_name: String
+    ) -> Self {
         Auth { client, secret_key, company_name, token_expiration, db_name, collection_name }
     }
 

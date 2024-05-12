@@ -4,7 +4,6 @@ use crate::models::auth_model::Auth;
 use mongodb::{Client, options::ClientOptions};
 use std::sync::Arc;
 use chrono::Duration;
-use serde_json::json;
 
 pub struct AuthService {
     auth: Auth,
