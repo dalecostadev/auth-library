@@ -1,9 +1,8 @@
-use crate::services::auth_service::AuthService;
+use crate::dale_auth::services::auth_service::AuthService;
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use mongodb::bson::doc;
 
     // Mock Auth struct for testing
     struct MockAuth;
