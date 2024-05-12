@@ -1,13 +1,22 @@
-[package]
-name = "auth-library"
-version = "0.1.0"
-edition = "2018"
+cargo-features = ["edition2024"]
 
-# Dependencies
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[package]
+name = "dale-auth"
+version = "0.1.0"
+edition = "2024"
+
 [dependencies]
-mongodb = "2.0"
+mongodb = "2"
 jsonwebtoken = "7"
 chrono = "0.4"
-serde = { version = "1", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 tokio = { version = "1", features = ["full"] }
-bson = "1"
+
+[dependencies.getrandom]
+version = "0.2.15"
+features = ["js"]
+default-features = false
